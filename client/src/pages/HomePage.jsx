@@ -11,7 +11,7 @@ function HomePage() {
   }, []);
 
   return (
-    <div>
+    <div className="container mt-2 mb-2 mx-auto bg-teal-500 p-5">
       <h1>Esta es la home page!</h1>
       <div>
         <h1>Info Usuarios</h1>
