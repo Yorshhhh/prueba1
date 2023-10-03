@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 function HomePage() {
   const [infoBackend, setInfoBackend] = useState([]); // Inicializa infoBackend como un objeto vacío con una propiedad 'users' que es una matriz vacía
 
@@ -12,20 +12,24 @@ function HomePage() {
 
   return (
     <div className="container mt-2 mb-2 mx-auto bg-teal-500 p-5">
-      <h1>Esta es la home page!</h1>
-      <div>
-        <h1>Info Usuarios</h1>
-        {infoBackend.users && infoBackend.users.length > 0 ? (
+      <div className="container mt-2 mb-2 mx-auto bg-blue-500 p-5">
+        <h1>Info del Backend</h1>
+        {infoBackend.usuarios && infoBackend.usuarios.length > 0 ? (
           <ul>
-            {infoBackend.users.map((user, i) => (
-              <li key={i}>{user}</li>
+            {infoBackend.usuarios.map((user, i) => (
+              <li key={i}>
+                <p>Id: {user.id}</p>
+                <p>Rut: {user.rut}</p>
+                <p>Password: {user.password}</p>
+                <br />
+              </li>
             ))}
           </ul>
         ) : (
           <p>Cargando información...</p>
         )}
 
-        <div>
+        <div className="container mt-2 mb-2 mx-auto bg-red-500 p-5">
           <h1>que sucede?</h1>
           <p>si agrego otro div</p>
         </div>
