@@ -12,8 +12,6 @@ function UsersList() {
       .then((data) => {
         setInfoBackend(data);
       });
-
-    
   }, []);
 
   if (infoBackend.length === 0) {
@@ -25,31 +23,15 @@ function UsersList() {
   }
   return (
     <div>
-      <div>
-        <h1>Info desde el Backend</h1>
-        {infoBackend.usuarios && infoBackend.usuarios.length > 0 ? (
-          <ul>
-            {infoBackend.usuarios.map((usuario, i) => (
-              <li key={i}>
-                <p>Id: {usuario.id}</p>
-                <p>Rut: {usuario.rut}</p>
-                <p>Password: {usuario.password}</p>
-                <br />
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>Cargando informacion...</p>
-          
-        )}
-      </div>
       <br />
       <h1>Lista de usuarios</h1>
-      <div className="grid grid-cols-4 gap-2 rounded-md">
-        {infoBackend.usuarios.map((user) => (
-          <UsersCard key={user.id} user={user} />
-        ))}
-      </div>
+      {
+        <div className="grid grid-cols-4 gap-2 rounded-md">
+          {infoBackend.map((user) => (
+            <UsersCard key={user.id} user={user} />
+          ))}
+        </div>
+      }
     </div>
   );
 }

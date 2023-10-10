@@ -1,4 +1,5 @@
 const express = require("express");
+const bcrypt = require("bcrypt")
 var cors = require("cors");
 
 const app = express();
@@ -6,41 +7,48 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+async function generarHash(password){
+  const hash = await bcrypt.hash(password,10)
+  return hash
+}
+
+const users = []
+
 app.get("/home", (req, res) => {
-    let nextId = 1
-    const usuarios = [
-        {
-            id: nextId++,
-            rut: 1111111111,
-            password: "usuario 1"
-        },{
-            id: nextId++,
-            rut: 222222222,
-            password: "usuario 2"
-        }
-    ]
-  res.json({ usuarios: usuarios});
+  let nextId = 1;
+  const usuarios = [
+    {
+      id: nextId++,
+      rut: 1111111111,
+      password: "usuario 1",
+    },
+    {
+      id: nextId++,
+      rut: 222222222,
+      password: "usuario 2",
+    },
+  ];
+  res.json({ usuarios: usuarios });
 });
 
+app.post("/register", async (req,res) => {
+  try{
+    const passwordCifrada = await generarHash(req.body.password)
+
+    const newUser = {
+      id: users.length + 1,
+      rut: req.body.rut,
+      password: passwordCifrada
+    }
+    users.push(newUser)
+    res.send("Usuario creado con éxito")
+  }catch(e){
+    return res.status(500).json({ error: "Error del servidor"})
+  }
+})
+
 app.get("/register", (req, res) => {
-    let nextId = 1
-    const usuarios = [
-        {
-            id: nextId++,
-            rut: 1111111111,
-            password: "usuario 1"
-        },{
-            id: nextId++,
-            rut: 222222222,
-            password: "usuario 2"
-        },
-        {
-            id: nextId++,
-            rut: 18888764,
-            password: "yorsh"
-        }
-    ]
-  res.json({ usuarios: usuarios});
+  res.json(users);
 });
 
 app.get("/about", (req, res) => {
@@ -63,7 +71,6 @@ app.get("/about", (req, res) => {
   ];
   res.json({ departamentos: departamentos });
 });
-
 
 app.listen(5001, () => {
   console.log("Server Running on Port 5001");
