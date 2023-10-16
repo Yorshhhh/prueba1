@@ -24,7 +24,6 @@ function UsersList() {
   return (
     <div>
       <br />
-      <h1>Lista de usuarios</h1>
       {
         <div className="grid grid-cols-4 gap-2 rounded-md">
           {infoBackend.map((user) => (

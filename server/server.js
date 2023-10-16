@@ -13,6 +13,7 @@ async function generarHash(password){
 }
 
 const users = []
+const deptos = []
 
 app.get("/home", (req, res) => {
   let nextId = 1;
@@ -38,6 +39,9 @@ app.post("/register", async (req,res) => {
     const newUser = {
       id: users.length + 1,
       rut: req.body.rut,
+      nombreCompleto: req.body.nombreCompleto,
+      numeroTelefono: req.body.numeroTelefono,
+      correo: req.body.correo,
       password: passwordCifrada
     }
     users.push(newUser)
@@ -50,6 +54,29 @@ app.post("/register", async (req,res) => {
 app.get("/register", (req, res) => {
   res.json(users);
 });
+
+app.post("/departamentos", (req,res) => {
+  try{
+    const newDepto = {
+      id: deptos.length + 1,
+      capacidad: req.body.capacidad,
+      disponibilidad: req.body.disponibilidad,
+      direccion: req.body.direccion,
+      habitaciones: req.body.habitaciones,
+      precio: req.body.precio,
+      descripcion: req.body.descripcion
+    }
+    deptos.push(newDepto)
+    res.send("Departamento agregado con éxito")
+
+  }catch(e){
+    return res.status(500).json({error: "Error del servidor"})
+  }
+})
+
+app.get("/departamentos", (req,res) =>{
+  res.json(deptos)
+})
 
 app.get("/about", (req, res) => {
   let nextId = 1;

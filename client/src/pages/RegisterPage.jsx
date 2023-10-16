@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import UserForm from "../components/UserForm";
 import UsersList from "../components/UsersList";
 
@@ -9,6 +9,7 @@ function RegisterPage() {
       <UserForm />
 
       <div className="bg-yellow-500 mx-auto">
+        <h1>Lista de Usuarios</h1>
         <UsersList />
       </div>
     </div>

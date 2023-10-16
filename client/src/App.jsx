@@ -2,12 +2,12 @@ import React from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 //PAGINAS
 import HomePage from "./pages/HomePage";
-import About from './pages/About'
-import RegisterPage from './pages/RegisterPage'
+import VerDepartamentosPage from "./pages/VerDepartamentosPage";
+import RegisterPage from "./pages/RegisterPage";
+import AgregarDeptosPage from "./pages/AgregarDeptosPage";
 //COMPONENTES
 import NavBar from "./components/NavBar";
-import NotFound from './components/NotFound'
-
+import NotFound from "./components/NotFound";
 
 import "./App.css";
 
@@ -18,9 +18,10 @@ function App() {
 
       <Routes>
         <Route path="/home" element={<HomePage />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/verDepartamentos" element={<VerDepartamentosPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="*" element={<NotFound />}/> 
+        <Route path="/departamentos" element={<AgregarDeptosPage />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
