@@ -14,7 +14,7 @@ function DeptoList() {
   if (infoBackend.length === 0) {
     return (
       <h1 className="text-white text-4xl font-bold text-center">
-        No hay usuarios registrados aún
+        No hay departamentos registrados aún
       </h1>
     );
   }
