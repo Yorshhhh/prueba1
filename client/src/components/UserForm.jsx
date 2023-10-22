@@ -4,8 +4,8 @@ import { Context } from "../context/Context";
 function UserForm() {
   const [rut, setRut] = useState("");
   const [password, setPassword] = useState("");
-  const [nombreCompleto,setNombreCompleto] = useState("")
-  const [numeroTelefono,setNumeroTelefono] = useState("")
+  const [nombre_completo,setNombreCompleto] = useState("")
+  const [numero_telefono,setNumeroTelefono] = useState("")
   const [correo,setCorreo] = useState("")
 
   const { createUsers } = useContext(Context);
@@ -13,20 +13,22 @@ function UserForm() {
   const handdleSubmit = async (e) => {
     const newUser = {
       rut,
-      nombreCompleto,
-      numeroTelefono,
+      nombre_completo,
+      numero_telefono,
       correo,
       password,
     };
     //Implementacion POST
     try {
-      const response = await fetch("http://localhost:5001/register", {
+      const response = await fetch("http://localhost:5001/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newUser),
       });
+      console.log(response)
+      console.log('pasas por aqui?')
       if (response.ok) {
         console.log("Usuario creado exitosamente!");
         setRut("");
@@ -66,7 +68,7 @@ function UserForm() {
           onChange={(e) => {
             setNombreCompleto(e.target.value);
           }}
-          value={nombreCompleto}
+          value={nombre_completo}
           className="bg-slate-300 px-3 w-full mb-2"
         />
          <input
@@ -75,7 +77,7 @@ function UserForm() {
           onChange={(e) => {
             setNumeroTelefono(e.target.value);
           }}
-          value={numeroTelefono}
+          value={numero_telefono}
           className="bg-slate-300 px-3 w-full mb-2"
         />
          <input

@@ -7,13 +7,13 @@ function UsersList() {
   const [infoBackend, setInfoBackend] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5001/register")
+    fetch("http://localhost:5001/users")
       .then((response) => response.json())
       .then((data) => {
         setInfoBackend(data);
       });
   }, []);
-
+  
   if (infoBackend.length === 0) {
     return (
       <h1 className="text-white text-4xl font-bold text-center">
