@@ -1,23 +1,25 @@
+require('dotenv').config()
 const express = require("express");
-const bcrypt = require("bcrypt")
-const db = require('./models')
-var cors = require("cors");
-var bodyParser = require('body-parser')
+cookieParser = require('cookie-parser')
+app = express()
+db = require('./models')
+cors = require("cors");
+bodyParser = require('body-parser')
+passport = require('passport')
+LocalStrategy = require('./passport/local')
 
-const app = express();
 
 app.use(cors());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false}))
-app.use('/auth', require('./routes/auth'))
 app.use(express.json());
+app.use(cookieParser())
+passport.use('local', LocalStrategy)
+app.use(passport.initialize())
 
-/* async function generarHash(password){
-  const hash = await bcrypt.hash(password,10)
-  return hash
-}
+app.use('/auth', require('./routes/auth'))
+app.use('/users', require('./routes/users'))
 
-const users = [] */
 const deptos = []
 
 app.get("/home", (req, res) => {
@@ -36,29 +38,6 @@ app.get("/home", (req, res) => {
   ];
   res.json({ usuarios: usuarios });
 });
-
-/* app.post("/register", async (req,res) => {
-  try{
-    const passwordCifrada = await generarHash(req.body.password)
-
-    const newUser = {
-      id: users.length + 1,
-      rut: req.body.rut,
-      nombreCompleto: req.body.nombreCompleto,
-      numeroTelefono: req.body.numeroTelefono,
-      correo: req.body.correo,
-      password: passwordCifrada
-    }
-    users.push(newUser)
-    res.send("Usuario creado con éxito")
-  }catch(e){
-    return res.status(500).json({ error: "Error del servidor"})
-  }
-})
-
-app.get("/register", (req, res) => {
-  res.json(users);
-}); */
 
 app.post("/departamentos", (req,res) => {
   try{
@@ -108,6 +87,6 @@ app.listen(5001, () => {
   console.log("Server Running on Port 5001");
 });
 
-db.sequelize.sync({force: true})
+db.sequelize.sync()
 .then( () => console.log('Conectado a la Base de Datos finalmente jorge'))
 .catch((e) => console.log(`Error => ${e}`))

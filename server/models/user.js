@@ -34,6 +34,13 @@ module.exports = (sequelize,DataTypes) => {
             required: true,
             allowNull: false,
             len: [8,100]
+        },
+        rol: {
+            type: Sequelize.STRING,
+            required: true,
+            allowNull: false,
+            defaultValue: 'user',
+            len:[3,10]
         }
 
     },{
