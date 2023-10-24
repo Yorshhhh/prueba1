@@ -1,5 +1,5 @@
-import React from 'react'
-import {NavLink} from 'react-router-dom'
+import React from "react";
+import { NavLink } from "react-router-dom";
 
 function NavBar() {
   return (
@@ -61,9 +61,14 @@ function NavBar() {
           id="nav-content"
         >
           <div className="auth flex items-center w-full md:w-full">
-            <button className="bg-white text-gray-800  p-2 rounded border border-gray-300 mr-4 hover:bg-gray-100 hover:text-gray-700">
-              Login
-            </button>
+            <NavLink
+              to="/login"
+              className="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
+            >
+              <button className="bg-white text-gray-800  p-2 rounded border border-gray-300 mr-4 hover:bg-gray-100 hover:text-gray-700">
+                Login
+              </button>
+            </NavLink>
             <NavLink
               to="/register"
               className="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
@@ -76,7 +81,7 @@ function NavBar() {
         </div>
       </div>
     </nav>
-  )
+  );
 }
 
-export default NavBar
+export default NavBar;

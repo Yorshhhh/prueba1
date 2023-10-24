@@ -2,7 +2,7 @@ const express = require("express"),
   router = express.Router(),
   passport = require("passport"),
   jwt = require("jsonwebtoken"),
-  { _create, _findByUserRut } = require("../controllers/users");
+  { _create, _findByUserRut } = require("../controllers/users")
 
 router.post("/register", async (req, res) => {
   try {
@@ -33,21 +33,15 @@ router.post("/login", async (req, res, next) => {
         return next(err);
       }
       if (!user) {
-        return res.status(401).json(info);
+        return res.status(400).json(info);
       }
-      const token = jwt.sign({ user }, process.env.SECRET_KEY, {
+      const token = jwt.sign(user, process.env.SECRET_KEY, {
         expiresIn: process.env.JWT_EXPIRATION,
       });
-      const cookieOption = {
-        expires: new Date(
-          Date.now + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60
-        ),
-        path: "/",
-      };
-      res.cookie("jwt", token, cookieOption);
+
       return res.status(200).json({
         token,
-        expiresIn: 3600,
+        expiresIn: process.env.JWT_EXPIRATION,
         user,
         message: "Usuario autenticado correctamente!",
       });

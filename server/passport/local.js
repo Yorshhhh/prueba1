@@ -22,7 +22,6 @@ module.exports = new LocalStrategy(
         telefono: user.numero_telefono,
         correo: user.correo,
         rol: user.rol,
-        password: user.password,
         created_at: user.createdAt,
         updated_at: user.updatedAt,
       }); // Pasar el usuario autenticado a la función done

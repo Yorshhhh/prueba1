@@ -7,6 +7,7 @@ cors = require("cors");
 bodyParser = require('body-parser')
 passport = require('passport')
 LocalStrategy = require('./passport/local')
+JWTStrategy = require("./passport/jwt")
 
 
 app.use(cors());
@@ -15,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: false}))
 app.use(express.json());
 app.use(cookieParser())
 passport.use('local', LocalStrategy)
+passport.use('jwt', JWTStrategy)
 app.use(passport.initialize())
 
 app.use('/auth', require('./routes/auth'))

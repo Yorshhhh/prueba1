@@ -4,6 +4,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import VerDepartamentosPage from "./pages/VerDepartamentosPage";
 import RegisterPage from "./pages/RegisterPage";
+import LoginPage from './pages/LoginPage'
 import AgregarDeptosPage from "./pages/AgregarDeptosPage";
 //COMPONENTES
 import NavBar from "./components/NavBar";
@@ -20,6 +21,7 @@ function App() {
         <Route path="/home" element={<HomePage />} />
         <Route path="/verDepartamentos" element={<VerDepartamentosPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/departamentos" element={<AgregarDeptosPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
