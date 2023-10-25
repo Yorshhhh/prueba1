@@ -10,14 +10,15 @@ module.exports = new JWTStrategy(
   },
   async (jwt_payload, done) => {
     const user = await _findByUserRut(jwt_payload.rut);
-    console.log(jwt_payload)
+    console.log("jwt payload desde passport/jwt: ",jwt_payload)
 
     if(!user) return done(null,false,'Usuario no logeado (?)')
 
     return done(null, {
         id: user.id,
         rut: user.rut,
-        nombre_completo: user.nombre_completo
+        nombre_completo: user.nombre_completo,
+        rol: user.rol
     })
   }
 );

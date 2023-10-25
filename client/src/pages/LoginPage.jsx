@@ -1,14 +1,56 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const [rut, setRut] = useState("");
   const [password, setPassword] = useState("");
+
+  const history = useNavigate();
+
+  const handdleSubmit = async (e) => {
+    e.preventDefault();
+
+    const userLogin = {
+      rut,
+      password,
+    };
+    //Implementacion POST
+    try {
+      const response = await fetch("http://localhost:5001/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userLogin),
+      });
+
+      const data = await response.json();
+      const userRole = data.user.rol;
+
+      if (response.ok) {
+        if (userRole === "user") {
+          console.log("Usuario autenticado correctamente!!!");
+          history("/dashboard");
+        } else if (userRole === "admin") {
+          console.log("Admin autenticado correctamente!!!");
+          history("/admin");
+        } else {
+          console.error("Usuario autenticado, pero rol no reconocido");
+        }
+      } else {
+        console.error("Error en el LOGIN: " + data.message);
+      }
+    } catch (e) {
+      console.error("Error en metodo POST: ", e);
+    }
+  };
   return (
     <div className="max-w-md mx-auto container mt-2 mb-2 bg-teal-500 p-5">
       <h1>Login</h1>
       <form
         action=""
         className="bg-slate-500 p-5 mb-4"
+        onSubmit={handdleSubmit}
       >
         <input
           type="text"
