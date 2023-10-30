@@ -7,12 +7,23 @@ async function findByUserRut(rut) {
     },
   });
 }
+async function findByUserEmail(correo){
+  return await db.user.findOne({
+    where:{
+      correo,
+    },
+  })
+}
+
+
 async function findAll() {
   return await db.user.findAll({
     attributes: { exclude: ["password"] },
   });
 }
+
 module.exports = {
   findByUserRut,
+  findByUserEmail,
   findAll,
 };

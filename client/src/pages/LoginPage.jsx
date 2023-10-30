@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
-  const [rut, setRut] = useState("");
+  const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
 
   const history = useNavigate();
@@ -11,7 +11,7 @@ function LoginPage() {
     e.preventDefault();
 
     const userLogin = {
-      rut,
+      correo,
       password,
     };
     //Implementacion POST
@@ -23,11 +23,13 @@ function LoginPage() {
         },
         body: JSON.stringify(userLogin),
       });
-
       const data = await response.json();
-      const userRole = data.user.rol;
 
       if (response.ok) {
+        const userRole = data.user.rol;
+        const token = data.token
+        localStorage.setItem("token", token)
+        
         if (userRole === "user") {
           console.log("Usuario autenticado correctamente!!!");
           history("/dashboard");
@@ -38,7 +40,7 @@ function LoginPage() {
           console.error("Usuario autenticado, pero rol no reconocido");
         }
       } else {
-        console.error("Error en el LOGIN: " + data.message);
+        alert("Error en el LOGIN: "+data.message)
       }
     } catch (e) {
       console.error("Error en metodo POST: ", e);
@@ -54,11 +56,11 @@ function LoginPage() {
       >
         <input
           type="text"
-          placeholder="Ingresa tu rut"
+          placeholder="Ingresa tu correo"
           onChange={(e) => {
-            setRut(e.target.value);
+            setCorreo(e.target.value);
           }}
-          value={rut}
+          value={correo}
           autoFocus
           required
           className="bg-slate-300 px-3 w-full mb-2"

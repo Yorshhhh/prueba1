@@ -1,6 +1,6 @@
 const JWTStrategy = require("passport-jwt").Strategy,
   ExtractJWT = require("passport-jwt").ExtractJwt,
-  { _findByUserRut } = require("../controllers/users");
+  { _findByUserEmail } = require("../controllers/users");
 
 module.exports = new JWTStrategy(
   {
@@ -9,7 +9,7 @@ module.exports = new JWTStrategy(
     ignoreExpiration: false,
   },
   async (jwt_payload, done) => {
-    const user = await _findByUserRut(jwt_payload.rut);
+    const user = await _findByUserEmail(jwt_payload.correo);
     console.log("jwt payload desde passport/jwt: ",jwt_payload)
 
     if(!user) return done(null,false,'Usuario no logeado (?)')
@@ -18,6 +18,7 @@ module.exports = new JWTStrategy(
         id: user.id,
         rut: user.rut,
         nombre_completo: user.nombre_completo,
+        correo: user.correo,
         rol: user.rol
     })
   }

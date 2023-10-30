@@ -8,7 +8,6 @@ router.post("/register", async (req, res) => {
   try {
     const foundUser = await _findByUserRut(req.body.rut);
     if (foundUser) {
-      console.log("que esta pasando aqui");
       return res
         .status(400)
         .json(`El usuario con rut ${foundUser.rut} ya existe`);
@@ -31,24 +30,20 @@ router.post("/login", async (req, res, next) => {
     function (err, user, info) {
       //LA VARIABLE "user" recibe toda la informacion del usuario
       //Necesito conseguir la variable "rol" para validar sus privilegios
-      console.log("Rol del usuario: ",user.rol);
 
       if (err) {
         return next(err);
       }
       if (!user) {
-        console.log("Rut de usuario no existe");
         return res
           .status(400)
-          .json({ message: "El rut del usuario ingresado no existe" });
+          .json({ message: "Usuario o contraseña incorrecta desde el servidor!" });
       }
+
       const token = jwt.sign(user, process.env.SECRET_KEY, {
         expiresIn: process.env.JWT_EXPIRATION,
       });
-      //AQUI RECIBO EN "REQ" EL RUT,PASSWORD DEL USUARIO
-      //QUE INTENTA LOGEARSE
-/*       console.log("BODY DEL REQUEST:",req.body);
-      console.log(user) */
+
       return res.status(200).json({
         token,
         expiresIn: process.env.JWT_EXPIRATION,
