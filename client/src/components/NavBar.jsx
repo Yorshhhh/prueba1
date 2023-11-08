@@ -1,6 +1,5 @@
-import React from "react";
 import { NavLink } from "react-router-dom";
-
+import "./NavBar.css"
 function NavBar() {
   return (
     <nav
@@ -26,7 +25,7 @@ function NavBar() {
           className="md:flex md:items-center md:w-auto w-full order-3 md:order-1"
           id="menu"
         >
-          <nav>
+          <nav id="barraNavegacion">
             <ul className="md:flex items-center justify-between text-base text-blue-600 pt-4 md:pt-0">
               <li>
                 <NavLink

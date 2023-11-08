@@ -23,6 +23,7 @@ function LoginPage() {
         },
         body: JSON.stringify(userLogin),
       });
+      
       const data = await response.json();
 
       if (response.ok) {

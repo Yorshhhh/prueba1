@@ -1,0 +1,6 @@
+#barraNavegacion a.active {
+    font-weight: bold;
+    pointer-events: none;
+    color: black;
+  }
+

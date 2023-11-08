@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../context/Context";
+import { useNavigate } from "react-router-dom";
 
 function UserForm() {
   const [rut, setRut] = useState("");
@@ -9,8 +10,11 @@ function UserForm() {
   const [correo,setCorreo] = useState("")
 
   const { createUsers } = useContext(Context);
+  const history = useNavigate();
 
   const handdleSubmit = async (e) => {
+    e.preventDefault()
+
     const newUser = {
       rut,
       nombre_completo,
@@ -27,15 +31,13 @@ function UserForm() {
         },
         body: JSON.stringify(newUser),
       });
-      console.log(response)
-      console.log('pasas por aqui?')
+
+      const data = await response.json()
+
       if (response.ok) {
-        console.log("Usuario creado exitosamente!");
-        setRut("");
-        setNombreCompleto("")
-        setNumeroTelefono("")
-        setCorreo("")
-        setPassword("");
+        const token = data.token
+        localStorage.setItem("token", token)
+        history("/dashboard")
       } else {
         console.error("Error al registrar usuario");
       }
