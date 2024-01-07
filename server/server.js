@@ -4,13 +4,17 @@ cookieParser = require('cookie-parser')
 app = express()
 db = require('./models')
 cors = require("cors");
+morgan = require("morgan")
 bodyParser = require('body-parser')
 passport = require('passport')
 LocalStrategy = require('./passport/local')
 JWTStrategy = require("./passport/jwt")
 
 
-app.use(cors());
+app.use(cors({
+  credentials: true
+}));
+app.use(morgan("dev"))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false}))
 app.use(express.json());

@@ -5,7 +5,7 @@ const express = require("express"),
 
 router.get("/", auth, async (req, res) => {
 
-  console.log("REQ.BODY desde routes/users.js",req.body.user.rol);
+  console.log("3) REQ.BODY desde routes/users.js",req.body.user.rol);
 
   if (req.body.user.rol === "admin") {
     try {

@@ -23,10 +23,11 @@ function App() {
       <NavBar />
 
       <Routes>
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/verDepartamentos" element={<VerDepartamentosPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
+        
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/departamentos" element={<AgregarDeptosPage />} />

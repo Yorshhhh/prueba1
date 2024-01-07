@@ -6,37 +6,32 @@ function UsersList() {
   const { users } = useContext(Context);
   const [infoBackend, setInfoBackend] = useState([]);
 
-  const token = localStorage.getItem("token");
-  const headers = {
-    "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`, // Incluye el token en el encabezado de autorización
-  };
-
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    };
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const headers = {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        };
 
-    fetch("http://localhost:5001/users", {
-      method: "GET", // Método GET para obtener la lista de usuarios
-      headers, // Incluye el token en el encabezado de autorización
-    })
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
+        const response = await fetch("http://localhost:5001/users", {
+          method: "GET",
+          headers,
+        });
+
+        if (!response.ok) {
           throw new Error("Error al obtener la lista de usuarios");
         }
-      })
-      .then((data) => {
+
+        const data = await response.json();
         setInfoBackend(data);
-      })
-      .catch((error) => {
-        console.error(error);
-        // Aquí puedes manejar el error, como redirigir a una página de error o mostrar un mensaje al usuario
-      });
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    fetchData();
   }, []);
 
   if (infoBackend.length === 0) {

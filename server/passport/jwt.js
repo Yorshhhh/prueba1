@@ -9,19 +9,24 @@ module.exports = new JWTStrategy(
     ignoreExpiration: false,
   },
   async (jwt_payload, done) => {
-    //Despues de definir la estrategia y autenticar el usuario
-    //a travez de "_findByUserEmail" preguntamos si el correo enviado desde el formulario es el mismo que el correo en la base de datos
     const user = await _findByUserEmail(jwt_payload.correo);
-   /*  console.log("jwt payload desde passport/jwt: ",jwt_payload) */
 
-    if(!user) return done(null,false,'Usuario no logeado (?)')
+    if (!user) return done(null, false, "Usuario no logeado (?)");
 
+
+    console.log('1)En algun momento pasas por aqui?')
+
+    console.log('me estas diciendo que pasas por aqui cada vez que refresco la aplicacion?')
+
+    console.log('quien es el que pasa por aqui?')
+
+    console.log(jwt_payload)
     return done(null, {
-        id: user.id,
-        rut: user.rut,
-        nombre_completo: user.nombre_completo,
-        correo: user.correo,
-        rol: user.rol
-    })
+      id: user.id,
+      rut: user.rut,
+      nombre_completo: user.nombre_completo,
+      correo: user.correo,
+      rol: user.rol,
+    });
   }
 );

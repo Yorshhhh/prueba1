@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {useAuth} from '../context/Context'
 
 function LoginPage() {
   const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
+  const { user, setUser , setIsAuthenticated} = useAuth()
 
   const history = useNavigate();
 
@@ -26,9 +28,28 @@ function LoginPage() {
       
       const data = await response.json();
 
-      if (response.ok) {
+      if (response.ok) {  
+        //INFORMACION DEL USUARIO
+        console.log('Informe del usuario: ',data.user)
+         
+        const userInfo = data.user
+        console.log('Info del usuario almacenado: ',userInfo)
+        
+        //GUARDAR LA INFORMACION DEL USUARIO
+        localStorage.setItem("usuario", JSON.stringify(userInfo))
+
+        //ROL DEL USUARIO
         const userRole = data.user.rol;
+        console.log('Rol de usuario: ',userRole)
+      
+        //ROL DEL USUARIO 2
+        console.log('Rol del usuario desestructurado: ',userInfo.rol)
+
+        //INFORMACION DEL TOKEN
         const token = data.token
+        console.log('Token del usuario: ', token)
+        setIsAuthenticated(true)
+        //GUARDAR TOKEN
         localStorage.setItem("token", token)
         
         if (userRole === "user") {

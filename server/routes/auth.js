@@ -2,7 +2,11 @@ const express = require("express"),
   router = express.Router(),
   passport = require("passport"),
   jwt = require("jsonwebtoken"),
-  { _create, _findByUserRut } = require("../controllers/users");
+  {
+    _create,
+    _findByUserRut,
+    _findByUserEmail,
+  } = require("../controllers/users");
 
 router.post("/register", async (req, res) => {
   try {
@@ -12,8 +16,18 @@ router.post("/register", async (req, res) => {
         .status(400)
         .json(`El usuario con rut ${foundUser.rut} ya existe`);
     }
+
+    const foundEmail = await _findByUserEmail(req.body.correo);
+    if (foundEmail) {
+      return res.status(400).json("Correo en uso, elija otro");
+    }
+
     const user = await _create(req.body);
 
+    const token = jwt.sign(user, process.env.SECRET_KEY, {
+      expiresIn: process.env.JWT_EXPIRATION,
+    });
+    3;
     return res.status(201).json({
       status: "success",
       message: `El usuario ${user.nombre_completo} fue creado con éxito`,
@@ -37,7 +51,9 @@ router.post("/login", async (req, res, next) => {
       if (!user) {
         return res
           .status(400)
-          .json({ message: "Usuario o contraseña incorrecta desde el servidor!" });
+          .json({
+            message: "Usuario o contraseña incorrecta desde el servidor!",
+          });
       }
 
       const token = jwt.sign(user, process.env.SECRET_KEY, {
@@ -52,6 +68,27 @@ router.post("/login", async (req, res, next) => {
       });
     }
   )(req, res, next);
+});
+
+router.get("/verifytoken", async (req, res) => {
+  const token = req.headers.authorization.split(" ")[1]
+
+  if (!token) {
+    return res.send(false);
+  }
+  
+  console.log(token);
+
+  jwt.verify(token, process.env.SECRET_KEY, async (error, decodedToken) => {
+    if (error) {
+      return res.send(false);
+    }
+    const foundUser = await _findByUserRut(decodedToken.rut);
+    if(!foundUser){
+      return res.sendStatus(401)
+    }
+    return res.json(decodedToken)
+  });
 });
 
 module.exports = router;

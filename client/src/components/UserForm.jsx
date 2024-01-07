@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
-import { Context } from "../context/Context";
+import { useAuth } from "../context/Context";
 import { useNavigate } from "react-router-dom";
+
+
 
 function UserForm() {
   const [rut, setRut] = useState("");
@@ -8,8 +10,9 @@ function UserForm() {
   const [nombre_completo,setNombreCompleto] = useState("")
   const [numero_telefono,setNumeroTelefono] = useState("")
   const [correo,setCorreo] = useState("")
+  const { setIsAuthenticated } = useAuth()
 
-  const { createUsers } = useContext(Context);
+  
   const history = useNavigate();
 
   const handdleSubmit = async (e) => {
@@ -35,8 +38,12 @@ function UserForm() {
       const data = await response.json()
 
       if (response.ok) {
+        console.log('que tiene el token: ', data.token)
         const token = data.token
+        setIsAuthenticated(true)
+
         localStorage.setItem("token", token)
+  
         history("/dashboard")
       } else {
         console.error("Error al registrar usuario");
