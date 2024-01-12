@@ -11,7 +11,7 @@ module.exports = new JWTStrategy(
   async (jwt_payload, done) => {
     const user = await _findByUserEmail(jwt_payload.correo);
 
-    if (!user) return done(null, false, "Usuario no logeado (?)");
+    if (!user) return done(null, false, "Usuario no logeado");
 
 
     console.log('1)En algun momento pasas por aqui?')

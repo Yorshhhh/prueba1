@@ -5,10 +5,9 @@ const express = require("express"),
 
 router.get("/", auth, async (req, res) => {
 
-  console.log("3) REQ.BODY desde routes/users.js",req.body.user.rol);
-
   if (req.body.user.rol === "admin") {
     try {
+      console.log('El usuario esta autorizado')
       const users = await _findAll();
       return res.status(200).json(users);
     } catch (e) {

@@ -13,37 +13,17 @@ export const useAuth = () => {
 export function ContextProvider(props) {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    /* const checkLogin = async () => {
-      const cookies = Cookies.get();
-      if (!cookies.token) {
-        setIsAuthenticated(false);
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const res = await verifyTokenRequest(cookies.token);
-        console.log(res);
-        if (!res.data) return setIsAuthenticated(false);
-        setIsAuthenticated(true);
-        setUser(res.data);
-        setLoading(false);
-      } catch (error) {
-        setIsAuthenticated(false);
-        setLoading(false);
-      }
-    };
-    checkLogin(); */
-
     const checkLogin = async () => {
       //SE VERIFICA SI EXISTE UN TOKEN
       const token = localStorage.getItem("token");
 
       if (!token) {
-        console.log('no existe un token')
+        console.log("no existe un token");
         setIsAuthenticated(false);
+        setIsAdmin(false);
         return;
       }
       try {
@@ -53,14 +33,13 @@ export function ContextProvider(props) {
             Authorization: `Bearer ${token}`,
           },
         });
-        //VERIFICA SI SE OBTUVE UNA RESPUESTA DEL SERVIDOR
+        //VERIFICA SI SE OBTUVO UNA RESPUESTA DEL SERVIDOR
         if (!response.ok) {
           throw new Error("Error al intentar verificar el Token");
+        } else {
+          setIsAuthenticated(true);
+          console.log("Parece que funciono");
         }
-        //VERIFICAMOS LA INFORMACION OBTENIDA
-        
-        setIsAuthenticated(true);
-        console.log("Parece que funciono");
       } catch (error) {
         setIsAuthenticated(false);
         console.error("Error en el metodo POST: ", error);
@@ -71,7 +50,14 @@ export function ContextProvider(props) {
 
   return (
     <Context.Provider
-      value={{ user, setUser, isAuthenticated, setIsAuthenticated }}
+      value={{
+        user,
+        setUser,
+        isAuthenticated,
+        setIsAuthenticated,
+        isAdmin,
+        setIsAdmin,
+      }}
     >
       {props.children}
     </Context.Provider>

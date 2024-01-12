@@ -5,7 +5,7 @@ import {useAuth} from '../context/Context'
 function LoginPage() {
   const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
-  const { user, setUser , setIsAuthenticated} = useAuth()
+  const { user, setUser , setIsAuthenticated, isAdmin, setIsAdmin } = useAuth()
 
   const history = useNavigate();
 
@@ -53,9 +53,11 @@ function LoginPage() {
         localStorage.setItem("token", token)
         
         if (userRole === "user") {
+          setIsAdmin(false)
           console.log("Usuario autenticado correctamente!!!");
           history("/dashboard");
         } else if (userRole === "admin") {
+          setIsAdmin(true)
           console.log("Admin autenticado correctamente!!!");
           history("/admin");
         } else {

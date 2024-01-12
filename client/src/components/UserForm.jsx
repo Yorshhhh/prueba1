@@ -25,6 +25,7 @@ function UserForm() {
       correo,
       password,
     };
+
     //Implementacion POST
     try {
       const response = await fetch("http://localhost:5001/auth/register", {
@@ -38,18 +39,20 @@ function UserForm() {
       const data = await response.json()
 
       if (response.ok) {
-        console.log('que tiene el token: ', data.token)
+        console.log(data.token)
+        console.log(data.user)
         const token = data.token
+        const user = data.user
         setIsAuthenticated(true)
 
         localStorage.setItem("token", token)
-  
+        localStorage.setItem("usuario", JSON.stringify(user))
         history("/dashboard")
       } else {
         console.error("Error al registrar usuario");
       }
-    } catch (e) {
-      console.error("Error en metodo POST: ", e);
+    } catch (error) {
+      console.error("Error en metodo POST: ", error);
     }
   };
   return (

@@ -1,5 +1,8 @@
-import React from "react";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  BrowserRouter,
+} from "react-router-dom";
 //PAGINAS
 import HomePage from "./pages/HomePage";
 import VerDepartamentosPage from "./pages/VerDepartamentosPage";
@@ -15,8 +18,6 @@ import NotFound from "./components/NotFound";
 
 import "./App.css";
 
-
-
 function App() {
   return (
     <BrowserRouter>
@@ -27,9 +28,10 @@ function App() {
         <Route path="/verDepartamentos" element={<VerDepartamentosPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-        
+
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/admin" element={<AdminPage />} />
+
         <Route path="/departamentos" element={<AgregarDeptosPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
