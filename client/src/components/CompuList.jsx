@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import DeptoCard from "../components/DeptoCard";
-function DeptoList() {
+import { useState, useEffect } from "react";
+import CompuCard from "../components/CompuCard";
+function CompuList() {
   const  [infoBackend, setInfoBackend]  = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5001/departamentos")
+    fetch("http://localhost:5001/computadores")
       .then((response) => response.json())
       .then((data) => {
         setInfoBackend(data);
@@ -14,18 +14,18 @@ function DeptoList() {
   if (infoBackend.length === 0) {
     return (
       <h1 className="text-white text-4xl font-bold text-center">
-        No hay departamentos registrados aún
+        No hay computadores agregados aún
       </h1>
     );
   }
 
   return (
     <div className="grid grid-cols-4 gap-2 rounded-md">
-      {infoBackend.map((depto) => (
-        <DeptoCard key={depto.id} depto={depto} />
+      {infoBackend.map((compu) => (
+        <CompuCard key={compu.id} compu={compu} />
       ))}
     </div>
   );
 }
 
-export default DeptoList;
+export default CompuList;

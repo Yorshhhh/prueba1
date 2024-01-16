@@ -1,17 +1,17 @@
 import React from "react";
-import DeptosForm from '../components/DeptosForm'
-import DeptoList from '../components/DeptoList'
+import CompuForm from '../components/CompuForm'
+import CompuList from '../components/CompuList'
 
 function AgregarDeptosPage() {
   return (
     <div className="container mt-2 mb-2 mx-auto bg-teal-500 p-5">
       <div className="bg-blue-500 mx-auto">
-        <h1>Agrega un Departamento</h1>
-        <DeptosForm />
+        <h1>Agrega un Computador</h1>
+        <CompuForm />
       </div>
       <div className="bg-yellow-500 mx-auto">
-        <h1>Lista de Departamentos</h1>
-        <DeptoList />
+        <h1>Lista de Computadores</h1>
+        <CompuList />
       </div>
     </div>
   );

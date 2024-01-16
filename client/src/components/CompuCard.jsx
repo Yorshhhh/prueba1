@@ -1,27 +1,25 @@
-import React from "react";
-
-function DeptoCard({ depto }) {
+function CompuCard({ compu }) {
   return (
     <div className="bg-gray-800 text-white p-4 rounded-md">
-      <a>ID: {depto.id}</a>
+      <a>ID: {compu.id}</a>
 
       <h1 className="text-xl fond-bold capitalize">
-        Capacidad: {depto.capacidad}
+        Nombre: {compu.nombre}
       </h1>
 
       <h1 className="text-xl fond-bold capitalize">
-        Habitaciones: {depto.habitaciones}
+        Descripcion: {compu.descripcion}
       </h1>
 
       <h2 className="text-gray-500 text-sm text-center">
-        Precio: ${depto.precio}
+        Stock: ${compu.stock}
       </h2>
 
       <h2 className="text-gray-500 text-sm text-center">
-        Descripcion: {depto.descripcion}
+        Precio: {compu.precio}
       </h2>
     </div>
   );
 }
 
-export default DeptoCard;
+export default CompuCard;

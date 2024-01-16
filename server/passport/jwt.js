@@ -25,6 +25,7 @@ module.exports = new JWTStrategy(
       id: user.id,
       rut: user.rut,
       nombre_completo: user.nombre_completo,
+      numero_telefono: user.numero_telefono,
       correo: user.correo,
       rol: user.rol,
     });

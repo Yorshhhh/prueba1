@@ -24,13 +24,14 @@ router.post("/register", async (req, res) => {
     }
 
     const user = await _create(req.body);
-
+    console.log(user)
+    
     const token = jwt.sign(
       {
         id: user.id,
         rut: user.rut,
-        nombre_completo: user.nombre,
-        numero_telefono: user.telefono,
+        nombre: user.nombre_completo,
+        numero: user.numero_telefono,
         correo: user.correo,
         rol: user.rol,
       },

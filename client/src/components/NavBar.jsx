@@ -49,18 +49,18 @@ function NavBar() {
               </li>
               <li>
                 <NavLink
-                  to="/verDepartamentos"
+                  to="/verComputadores"
                   className="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
                 >
-                  Ver Departamentos
+                  Ver Computadores
                 </NavLink>
               </li>
               <li>
                 <NavLink
-                  to="/departamentos"
+                  to="/computadores"
                   className="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
                 >
-                  Agregar Departamentos
+                  Agregar Computadores
                 </NavLink>
               </li>
             </ul>
@@ -80,7 +80,7 @@ function NavBar() {
                     className="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
                   >
                     <button className="bg-white text-gray-800 p-2 rounded border border-gray-300 mr-4 hover:bg-gray-100 hover:text-gray-700">
-                      Bienvenido Administrador: {user.nombre}
+                      Bienvenido Administrador: {user.nombre_completo}
                     </button>
                   </NavLink>
                 ) : (
@@ -89,7 +89,7 @@ function NavBar() {
                     className="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
                   >
                     <button className="bg-white text-gray-800 p-2 rounded border border-gray-300 mr-4 hover:bg-gray-100 hover:text-gray-700">
-                      Bienvenido {user.nombre}
+                      Bienvenido {user.nombre_completo}
                     </button>
                   </NavLink>
                 )}

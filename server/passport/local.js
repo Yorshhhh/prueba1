@@ -19,8 +19,8 @@ module.exports = new LocalStrategy(
       
       return done(null, {
         rut: user.rut,
-        nombre: user.nombre_completo,
-        telefono: user.numero_telefono,
+        nombre_completo: user.nombre_completo,
+        numero_telefono: user.numero_telefono,
         correo: user.correo,
         rol: user.rol,
         created_at: user.createdAt,

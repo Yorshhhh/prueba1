@@ -48,6 +48,18 @@ export function ContextProvider(props) {
     checkLogin();
   }, []);
 
+/*   useEffect(()=> {
+    const checkUser = async () => {
+      const user = localStorage.getItem("usuario")
+      if(!user){
+        console.log('no existo info del usuario')
+        setIsAuthenticated(false)
+        return;
+      }
+
+    }
+  },[])
+ */
   return (
     <Context.Provider
       value={{
