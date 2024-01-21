@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {useAuth} from '../context/Context'
+import { useAuth } from "../context/Context";
 
 function LoginPage() {
   const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
-  const { user, setUser , setIsAuthenticated, isAdmin, setIsAdmin } = useAuth()
+  const { user, setUser, setIsAuthenticated, isAdmin, setIsAdmin } = useAuth();
 
   const history = useNavigate();
 
@@ -25,46 +25,52 @@ function LoginPage() {
         },
         body: JSON.stringify(userLogin),
       });
-      
+
       const data = await response.json();
 
-      if (response.ok) {  
+      if (response.ok) {
         //INFORMACION DEL USUARIO
-        console.log('Informe del usuario: ',data.user)
-         
-        const userInfo = data.user
-        console.log('Info del usuario almacenado: ',userInfo)
-        
+        console.log("Informe del usuario: ", data.user);
+
+        const userInfo = data.user;
+        console.log("Info del usuario almacenado: ", userInfo);
+
         //GUARDAR LA INFORMACION DEL USUARIO
-        localStorage.setItem("usuario", JSON.stringify(userInfo))
+        localStorage.setItem("usuario", JSON.stringify(userInfo));
 
         //ROL DEL USUARIO
         const userRole = data.user.rol;
-        console.log('Rol de usuario: ',userRole)
-      
+        console.log("Rol de usuario: ", userRole);
+
         //ROL DEL USUARIO 2
-        console.log('Rol del usuario desestructurado: ',userInfo.rol)
+        console.log("Rol del usuario desestructurado: ", userInfo.rol);
 
         //INFORMACION DEL TOKEN
-        const token = data.token
-        console.log('Token del usuario: ', token)
-        setIsAuthenticated(true)
+        const token = data.token;
+        console.log("Token del usuario: ", token);
+        setIsAuthenticated(true);
         //GUARDAR TOKEN
-        localStorage.setItem("token", token)
-        
+        localStorage.setItem("token", token);
+
         if (userRole === "user") {
-          setIsAdmin(false)
+          setIsAdmin(false);
           console.log("Usuario autenticado correctamente!!!");
           history("/dashboard");
         } else if (userRole === "admin") {
-          setIsAdmin(true)
+          setIsAdmin(true);
           console.log("Admin autenticado correctamente!!!");
           history("/admin");
+        } else if (userRole === "tecnico") {
+          console.log("Tecnico autenticado correctamente!!!");
+          history("/tecnico");
+        } else if (userRole === "editor") {
+          console.log("Editor autenticado correctamente!!!");
+          history("/editor");
         } else {
           console.error("Usuario autenticado, pero rol no reconocido");
         }
       } else {
-        alert("Error en el LOGIN: "+data.message)
+        alert("Error en el LOGIN: " + data.message);
       }
     } catch (e) {
       console.error("Error en metodo POST: ", e);

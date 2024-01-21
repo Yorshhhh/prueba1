@@ -1,29 +1,36 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useAuth } from "../context/Context";
 import { useNavigate } from "react-router-dom";
 
-
-
 function UserForm() {
   const [rut, setRut] = useState("");
-  const [password, setPassword] = useState("");
-  const [nombre_completo,setNombreCompleto] = useState("")
-  const [numero_telefono,setNumeroTelefono] = useState("")
-  const [correo,setCorreo] = useState("")
-  const { setIsAuthenticated } = useAuth()
+  const [dv, setDV] = useState("");
 
-  
+  const [password, setPassword] = useState("");
+  const [nombres, setNombres] = useState("");
+  const [apellidos, setApellidos] = useState("");
+  const [fecha_nacimiento, setFechaNacimiento] = useState("");
+  const [numero_telefono, setNumeroTelefono] = useState("");
+  const [correo, setCorreo] = useState("");
+
+  /*   const [rol,setRol] = useState("") */
+  const { setIsAuthenticated } = useAuth();
+
   const history = useNavigate();
 
   const handdleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const newUser = {
       rut,
-      nombre_completo,
+      dv,
+      nombres,
+      apellidos,
+      fecha_nacimiento,
       numero_telefono,
       correo,
       password,
+      /* rol, */
     };
 
     //Implementacion POST
@@ -36,18 +43,18 @@ function UserForm() {
         body: JSON.stringify(newUser),
       });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (response.ok) {
-        console.log(data.token)
-        console.log(data.user)
-        const token = data.token
-        const user = data.user
-        setIsAuthenticated(true)
+        console.log(data.token);
+        console.log(data.user);
+        const token = data.token;
+        const user = data.user;
+        setIsAuthenticated(true);
 
-        localStorage.setItem("token", token)
-        localStorage.setItem("usuario", JSON.stringify(user))
-        history("/dashboard")
+        localStorage.setItem("token", token);
+        localStorage.setItem("usuario", JSON.stringify(user));
+        history("/dashboard");
       } else {
         console.error("Error al registrar usuario");
       }
@@ -67,7 +74,11 @@ function UserForm() {
           type="text"
           placeholder="Ingresa tu rut"
           onChange={(e) => {
-            setRut(e.target.value);
+            // Utiliza una expresión regular para permitir solo dígitos y limitar la longitud a 8
+            const validatedValue = e.target.value
+              .replace(/\D/g, "")
+              .slice(0, 8);
+            setRut(validatedValue);
           }}
           value={rut}
           autoFocus
@@ -76,23 +87,72 @@ function UserForm() {
         />
         <input
           type="text"
-          placeholder="Ingresa tu nombre completo"
+          placeholder="Digito verificador"
           onChange={(e) => {
-            setNombreCompleto(e.target.value);
+            const inputValue = e.target.value;
+            // Limitar la longitud máxima a 1
+            if (inputValue.length <= 1) {
+              // Verificar si la entrada es un número o "k" (mayúscula o minúscula)
+              if (/^[0-9kK]$/.test(inputValue) || inputValue === "") {
+                setDV(inputValue);
+              }
+            }
           }}
-          value={nombre_completo}
+          value={dv}
+          maxLength={1}
+          required
           className="bg-slate-300 px-3 w-full mb-2"
         />
-         <input
+
+        <input
+          type="text"
+          placeholder="Ingresa tus nombres"
+          onChange={(e) => {
+            const inputValue = e.target.value;
+            // Verificar si la entrada solo contiene caracteres
+            if (!inputValue || /^[A-Za-z\s]+$/.test(inputValue)) {
+              setNombres(inputValue);
+            }
+          }}
+          value={nombres}
+          className="bg-slate-300 px-3 w-full mb-2"
+        />
+        <input
+          type="text"
+          placeholder="Ingresa tus apellidos"
+          onChange={(e) => {
+            const inputValue = e.target.value;
+            // Verificar si la entrada solo contiene caracteres
+            if (!inputValue || /^[A-Za-z\s]+$/.test(inputValue)) {
+              setApellidos(inputValue);
+            }
+          }}
+          value={apellidos}
+          className="bg-slate-300 px-3 w-full mb-2"
+        />
+        <a>Fecha de Nacimiento</a>
+        <input
+          type="date"
+          placeholder="Ingresa tu fecha de nacimiento"
+          onChange={(e) => {
+            setFechaNacimiento(e.target.value);
+          }}
+          value={fecha_nacimiento}
+          className="bg-slate-300 px-3 w-full mb-2"
+        />
+        <input
           type="tel"
           placeholder="Ingresa un numero de telefono"
           onChange={(e) => {
-            setNumeroTelefono(e.target.value);
+            const validatedValue = e.target.value
+              .replace(/\D/g, "")
+              .slice(0, 11);
+            setNumeroTelefono(validatedValue);
           }}
           value={numero_telefono}
           className="bg-slate-300 px-3 w-full mb-2"
         />
-         <input
+        <input
           type="email"
           placeholder="Ingresa un correo"
           onChange={(e) => {
@@ -111,6 +171,15 @@ function UserForm() {
           required
           className="bg-slate-300 px-3 w-full mb-2"
         />
+        {/*  <input
+          type="text"
+          placeholder="Ingresa el rol"
+          onChange={(e) => {
+            setRol(e.target.value)
+          }}
+          value={rol}
+          className="bg-slate-300 px-3 w-full mb-2"
+        /> */}
         <button className="bg-indigo-500 px-3 py-1 hover:bg-indigo-400 text-white rounded-md mt-2">
           Registrar
         </button>

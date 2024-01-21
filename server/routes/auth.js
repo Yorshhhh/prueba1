@@ -24,17 +24,21 @@ router.post("/register", async (req, res) => {
     }
 
     const user = await _create(req.body);
-    console.log(user)
+    
+     // Crear un objeto con la información que deseas enviar al frontend
+     const userToFrontend = {
+      rut: user.rut,
+      dv: user.dv,
+      nombres: user.nombres,
+      apellidos: user.apellidos,
+      fecha_nacimiento: user.fecha_nacimiento,
+      numero: user.numero_telefono,
+      correo: user.correo,
+      rol: user.rol,
+    };
     
     const token = jwt.sign(
-      {
-        id: user.id,
-        rut: user.rut,
-        nombre: user.nombre_completo,
-        numero: user.numero_telefono,
-        correo: user.correo,
-        rol: user.rol,
-      },
+      userToFrontend,
       process.env.SECRET_KEY,
       {
         expiresIn: process.env.JWT_EXPIRATION,
@@ -42,9 +46,9 @@ router.post("/register", async (req, res) => {
     );
 
     return res.status(201).json({
-      user,
+      user: userToFrontend,
       status: "success",
-      message: `El usuario63 fue creado con éxito`,
+      message: `El usuario fue creado con éxito`,
       token: token,
     });
   } catch (e) {

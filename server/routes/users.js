@@ -4,7 +4,9 @@ const express = require("express"),
   auth = require("../middlewares/authorization");
 
 router.get("/", auth, async (req, res) => {
-
+  console.log('Finalmente al pasar por el middleware, donde se verifica si el usuario existe')
+  console.log('al hacerse una peticion a esta ruta')
+  console.log('se accede a la informacion del usuario y se hace una validacion a nivel de rol de usuario')
   if (req.body.user.rol === "admin") {
     try {
       console.log('El usuario esta autorizado')

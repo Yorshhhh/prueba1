@@ -17,15 +17,18 @@ module.exports = new LocalStrategy(
         return done(null, false, "Contraseña ingresada incorrecta"); // Cambia "true" a "false" para indicar una autenticación fallida
       }
       
-      return done(null, {
+      const userToFrontend = {
         rut: user.rut,
-        nombre_completo: user.nombre_completo,
-        numero_telefono: user.numero_telefono,
+        dv: user.dv,
+        nombres: user.nombres,
+        apellidos: user.apellidos,
+        fecha_nacimiento: user.fecha_nacimiento,
+        numero: user.numero_telefono,
         correo: user.correo,
         rol: user.rol,
-        created_at: user.createdAt,
-        updated_at: user.updatedAt,
-      }); // Pasar el usuario autenticado a la función done
+      };
+
+      return done(null, userToFrontend); // Pasar el usuario autenticado a la función done
     } catch (e) {
       return done(e);
     }

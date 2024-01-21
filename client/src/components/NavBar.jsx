@@ -80,7 +80,7 @@ function NavBar() {
                     className="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
                   >
                     <button className="bg-white text-gray-800 p-2 rounded border border-gray-300 mr-4 hover:bg-gray-100 hover:text-gray-700">
-                      Bienvenido Administrador: {user.nombre_completo}
+                      Bienvenido Administrador {user.nombres}
                     </button>
                   </NavLink>
                 ) : (
@@ -89,7 +89,7 @@ function NavBar() {
                     className="inline-block no-underline hover:text-black font-medium text-lg py-2 px-4 lg:-ml-2"
                   >
                     <button className="bg-white text-gray-800 p-2 rounded border border-gray-300 mr-4 hover:bg-gray-100 hover:text-gray-700">
-                      Bienvenido {user.nombre_completo}
+                      Bienvenido {`${user.nombres} ${user.apellidos}`}
                     </button>
                   </NavLink>
                 )}

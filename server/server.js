@@ -5,7 +5,6 @@ app = express();
 db = require("./models");
 cors = require("cors");
 morgan = require("morgan");
-bodyParser = require("body-parser");
 passport = require("passport");
 LocalStrategy = require("./passport/local");
 JWTStrategy = require("./passport/jwt");
@@ -16,8 +15,7 @@ app.use(
   })
 );
 app.use(morgan("dev"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 passport.use("local", LocalStrategy);
@@ -26,10 +24,10 @@ app.use(passport.initialize());
 
 app.use("/auth", require("./routes/auth"));
 app.use("/users", require("./routes/users"));
-
+app.use("/tecnico", require("./routes/tecnico"))
 const computadores = [];
 
-app.get("/home", (req, res) => {
+/* app.get("/home", (req, res) => {
   let nextId = 1;
   const usuarios = [
     {
@@ -45,7 +43,7 @@ app.get("/home", (req, res) => {
   ];
   res.json({ usuarios: usuarios });
 });
-
+ */
 app.post("/computadores", (req, res) => {
   try {
     const newComputador = {
