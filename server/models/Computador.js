@@ -15,14 +15,19 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'cod_categoria',
         targetKey: 'cod_categoria'
       })
-      Computador.hasMany(models.Componente,{
+      Computador.belongsToMany(models.Componente,{
+        through: 'Compu_Compo',
         foreignKey: 'num_componente',
         targetKey: 'num_componente'
       })
     }
   }
   Computador.init({
-    cod_pc: DataTypes.INTEGER,
+    cod_pc: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true
+    },
     cod_categoria: DataTypes.INTEGER,
     num_componente: DataTypes.INTEGER,
     descripcion: DataTypes.STRING,

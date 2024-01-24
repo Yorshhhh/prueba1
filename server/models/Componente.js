@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Componente.belongsTo(models.Codigo_Componente, {
+      Componente.belongsToMany(models.Codigo_Componente, {
+        through: 'Compu_Compo',
         foreignKey: 'cod_componente',
         targetKey: 'cod_componente'
       })
@@ -20,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
   Componente.init({
     num_componente: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       autoIncrement: true,
       primaryKey: true,
     },
