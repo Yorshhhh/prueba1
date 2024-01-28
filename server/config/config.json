@@ -4,20 +4,23 @@
     "password": "duoc",
     "database": "xe",
     "host": "127.0.0.1",
-    "dialect": "oracle"
+    "dialect": "oracle",
+    "logging": true
   },
   "test": {
     "username": "jorge",
     "password": "duoc",
     "database": "xe",
     "host": "127.0.0.1",
-    "dialect": "oracle"
+    "dialect": "oracle",
+    "logging": true
   },
   "production": {
     "username": "jorge",
     "password": "duoc",
     "database": "xe",
     "host": "127.0.0.1",
-    "dialect": "oracle"
+    "dialect": "oracle",
+    "logging": true
   }
 }

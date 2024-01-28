@@ -14,7 +14,6 @@ import NotFound from "./components/NotFound";
 import "./App.css";
 import Layout from "./components/Layout";
 import TecnicoPage from "./pages/TecnicoPage";
-import EditorPage from "./pages/EditorPage";
 
 function App() {
   return (
@@ -31,7 +30,6 @@ function App() {
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/computadores" element={<AgregarCompusPage />} />
         <Route path="/tecnico" element={<TecnicoPage />} />
-        <Route path="/editor" element={<EditorPage />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

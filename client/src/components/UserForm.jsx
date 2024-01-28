@@ -13,7 +13,6 @@ function UserForm() {
   const [numero_telefono, setNumeroTelefono] = useState("");
   const [correo, setCorreo] = useState("");
 
-  /*   const [rol,setRol] = useState("") */
   const { setIsAuthenticated } = useAuth();
 
   const history = useNavigate();
@@ -30,7 +29,6 @@ function UserForm() {
       numero_telefono,
       correo,
       password,
-      /* rol, */
     };
 
     //Implementacion POST
@@ -44,10 +42,9 @@ function UserForm() {
       });
 
       const data = await response.json();
+      console.log(data);
 
       if (response.ok) {
-        console.log(data.token);
-        console.log(data.user);
         const token = data.token;
         const user = data.user;
         setIsAuthenticated(true);
@@ -171,15 +168,6 @@ function UserForm() {
           required
           className="bg-slate-300 px-3 w-full mb-2"
         />
-        {/*  <input
-          type="text"
-          placeholder="Ingresa el rol"
-          onChange={(e) => {
-            setRol(e.target.value)
-          }}
-          value={rol}
-          className="bg-slate-300 px-3 w-full mb-2"
-        /> */}
         <button className="bg-indigo-500 px-3 py-1 hover:bg-indigo-400 text-white rounded-md mt-2">
           Registrar
         </button>

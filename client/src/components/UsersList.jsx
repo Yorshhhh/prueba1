@@ -5,6 +5,7 @@ import { Context } from "../context/Context.jsx";
 function UsersList() {
   const { users } = useContext(Context);
   const [infoBackend, setInfoBackend] = useState([]);
+  const [error, setError] = useState([])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,7 +48,7 @@ function UsersList() {
       {
         <div className="grid grid-cols-4 gap-2 rounded-md">
           {infoBackend.map((user) => (
-            <UsersCard key={user.id} user={user} />
+            <UsersCard key={user.rut} user={user} />
           ))}
         </div>
       }

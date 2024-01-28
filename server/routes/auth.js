@@ -1,32 +1,30 @@
 const express = require("express"),
   router = express.Router(),
   passport = require("passport"),
-  jwt = require("jsonwebtoken"),
-  {
-    _create,
-    _findByUserRut,
-    _findByUserEmail,
-  } = require("../controllers/users");
+  jwt = require("jsonwebtoken")
+  
+const bcrypt = require("bcrypt");
+
+const modeloUsuario = require("../models").Usuario;
+const { Sequelize, DataTypes } = require("sequelize");
+const sequelize = new Sequelize("xe", "jorge", "duoc", {
+  host: "127.0.0.1",
+  dialect: "oracle", // Elige el dialecto correspondiente a tu base de datos (puede ser 'postgres', 'mysql', 'sqlite', etc.)
+});
 
 router.post("/register", async (req, res) => {
   try {
-    //Preguntamos si el RUT del USUARIO se encuentra disponible
-    const foundUser = await _findByUserRut(req.body.rut);
-    if (foundUser) {
-      return res
-        .status(400)
-        .json(`El usuario con rut ${foundUser.rut} ya existe`);
-    }
-    //Preguntamos si el CORREO del USUARIO se encuentra disponible
-    const foundEmail = await _findByUserEmail(req.body.correo);
-    if (foundEmail) {
-      return res.status(400).json("Correo en uso, elija otro");
-    }
+    // Encriptar la contraseña utilizando bcrypt
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
-    const user = await _create(req.body);
-    
-     // Crear un objeto con la información que deseas enviar al frontend
-     const userToFrontend = {
+    const user = await modeloUsuario.create({
+      ...req.body,
+      password: hashedPassword,
+      cod_rol: 3
+    });
+
+    // Crear un objeto con la información que deseas enviar al frontend
+    const userToFrontend = {
       rut: user.rut,
       dv: user.dv,
       nombres: user.nombres,
@@ -34,16 +32,12 @@ router.post("/register", async (req, res) => {
       fecha_nacimiento: user.fecha_nacimiento,
       numero: user.numero_telefono,
       correo: user.correo,
-      rol: user.rol,
+      cod_rol: user.cod_rol,
     };
-    
-    const token = jwt.sign(
-      userToFrontend,
-      process.env.SECRET_KEY,
-      {
-        expiresIn: process.env.JWT_EXPIRATION,
-      }
-    );
+
+    const token = jwt.sign(userToFrontend, process.env.SECRET_KEY, {
+      expiresIn: process.env.JWT_EXPIRATION,
+    });
 
     return res.status(201).json({
       user: userToFrontend,
@@ -51,8 +45,8 @@ router.post("/register", async (req, res) => {
       message: `El usuario fue creado con éxito`,
       token: token,
     });
-  } catch (e) {
-    return res.status(500).json(e.message);
+  } catch (error) {
+    return res.status(500).json(error.message);
   }
 });
 
@@ -98,7 +92,13 @@ router.get("/verifytoken", async (req, res) => {
     if (error) {
       return res.send(false);
     }
-    const foundUser = await _findByUserRut(decodedToken.rut);
+    // Buscar el usuario por rut utilizando Sequelize
+    const foundUser = await modeloUsuario.findOne({
+      where: {
+        rut: decodedToken.rut,
+      },
+    });
+
     if (!foundUser) {
       return res.sendStatus(401);
     }

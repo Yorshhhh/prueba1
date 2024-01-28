@@ -39,11 +39,11 @@ function LoginPage() {
         localStorage.setItem("usuario", JSON.stringify(userInfo));
 
         //ROL DEL USUARIO
-        const userRole = data.user.rol;
+        const userRole = data.user.cod_rol;
         console.log("Rol de usuario: ", userRole);
 
         //ROL DEL USUARIO 2
-        console.log("Rol del usuario desestructurado: ", userInfo.rol);
+        console.log("Rol del usuario desestructurado: ", userInfo.cod_rol);
 
         //INFORMACION DEL TOKEN
         const token = data.token;
@@ -52,20 +52,16 @@ function LoginPage() {
         //GUARDAR TOKEN
         localStorage.setItem("token", token);
 
-        if (userRole === "user") {
-          setIsAdmin(false);
+        if (userRole === 3) {
           console.log("Usuario autenticado correctamente!!!");
           history("/dashboard");
-        } else if (userRole === "admin") {
+        } else if (userRole === 1) {
           setIsAdmin(true);
           console.log("Admin autenticado correctamente!!!");
           history("/admin");
-        } else if (userRole === "tecnico") {
+        } else if (userRole === 2) {
           console.log("Tecnico autenticado correctamente!!!");
           history("/tecnico");
-        } else if (userRole === "editor") {
-          console.log("Editor autenticado correctamente!!!");
-          history("/editor");
         } else {
           console.error("Usuario autenticado, pero rol no reconocido");
         }
@@ -79,6 +75,7 @@ function LoginPage() {
   return (
     <div className="max-w-md mx-auto container mt-2 mb-2 bg-teal-500 p-5">
       <h1>Login</h1>
+
       <form
         action=""
         className="bg-slate-500 p-5 mb-4"

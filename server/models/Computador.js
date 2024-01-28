@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       })
       Computador.belongsToMany(models.Componente,{
         through: 'Compu_Compo',
-        foreignKey: 'num_componente',
+        foreignKey: 'cod_pc',
         targetKey: 'num_componente'
       })
     }

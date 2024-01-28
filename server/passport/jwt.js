@@ -1,7 +1,7 @@
 const JWTStrategy = require("passport-jwt").Strategy,
-  ExtractJWT = require("passport-jwt").ExtractJwt,
-  { _findByUserEmail } = require("../controllers/users");
-
+  ExtractJWT = require("passport-jwt").ExtractJwt
+//AQUI IBA UN FINDBYEMAIL
+const modeloUsuario = require('../models').Usuario
 module.exports = new JWTStrategy(
   {
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
@@ -9,7 +9,12 @@ module.exports = new JWTStrategy(
     ignoreExpiration: false,
   },
   async (jwt_payload, done) => {
-    const user = await _findByUserEmail(jwt_payload.correo);
+    //AQUI BUSCAMOS AL USUARIO X SU CORREO USANDO: jwt_payload.correo
+    const user = await modeloUsuario.findOne({
+      where: {
+        correo: jwt_payload.correo,
+      },
+    });
 
     if (!user) return done(null, false, "Usuario no logeado");
 
@@ -21,13 +26,12 @@ module.exports = new JWTStrategy(
     console.log(jwt_payload)
 
     return done(null, {
-      id: user.id,
       rut: user.rut,
       nombres: user.nombres,
       apellidos: user.apellidos,
       numero_telefono: user.numero_telefono,
       correo: user.correo,
-      rol: user.rol,
+      cod_rol: user.cod_rol,
     });
   }
 );

@@ -1,12 +1,18 @@
 const LocalStrategy = require("passport-local").Strategy;
-const { _findByUserEmail } = require("../controllers/users");
 const bcrypt = require("bcrypt");
+const modeloUsuario = require('../models').Usuario
 
 module.exports = new LocalStrategy(
   { usernameField: "correo", session: false }, // Aquí especifica el campo de nombre de usuario como "correo"
   async (correo, password, done) => {
     try {
-      const user = await _findByUserEmail(correo); 
+      // Buscar al usuario por correo utilizando Sequelize
+      const user = await modeloUsuario.findOne({
+        where: {
+          correo: correo,
+        },
+      });
+
       if (!user) {
         return done(null, false, "Correo ingresado no se encuentra registrado");
       }
@@ -25,7 +31,7 @@ module.exports = new LocalStrategy(
         fecha_nacimiento: user.fecha_nacimiento,
         numero: user.numero_telefono,
         correo: user.correo,
-        rol: user.rol,
+        cod_rol: user.cod_rol,
       };
 
       return done(null, userToFrontend); // Pasar el usuario autenticado a la función done

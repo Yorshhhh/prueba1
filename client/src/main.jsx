@@ -1,12 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {
-  Routes,
-  Route,
-  BrowserRouter,
-} from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import NavBar from '../src/components/NavBar.jsx'
+import NavBar from "../src/components/NavBar.jsx";
 
 import App from "./App.jsx";
 import "./index.css";
@@ -18,11 +16,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <ContextProvider>
         <NavBar />
+        <ToastContainer />
         <Routes>
           <Route path="/*" element={<App />} />
         </Routes>
       </ContextProvider>
     </BrowserRouter>
-
   </React.StrictMode>
 );
